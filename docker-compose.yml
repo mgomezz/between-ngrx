@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3080:3080"
-    container_name: node-api
+    container_name: between-api
     volumes:
        - ./api:/usr/src/app/api
        - /usr/src/app/api/node_modules
@@ -16,7 +16,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4200:4200"
-    container_name: angular-ui
+    container_name: between-ui
     volumes:
        - ./ui:/usr/src/app/ui
        - /usr/src/app/ui/node_modules
