@@ -1,3 +1,26 @@
 <div>
-    <ngx-datatable class="material" [rows]="rows" [columns]="columns"> </ngx-datatable>
+    <ngx-datatable class="material" [rows]="rows" [columns]="columns" [headerHeight]="50" [rowHeight]="70">
+        <ngx-datatable-column name="First Name" prop='firstName'>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Last Name" prop='lastName'>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Username" prop='username'>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Email" prop='email'>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Role" prop='role'>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Birthday" prop='birthday'>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="" sortable="false" prop="firstName">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <button type="button" class="btn btn-link" (click)='edit(value)'>
+                    <i class="material-icons">edit</i>
+                </button>
+                <button type="button" class="btn btn-link" (click)='delete(value)'>
+                    <i class="material-icons">delete</i>
+                </button>
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
 </div>

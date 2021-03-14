@@ -29,4 +29,12 @@ export class UsersDatatableComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  edit(value) {
+    console.log(value);
+  }
+
+  delete(value) {
+    console.log(value);
+  }
 }
