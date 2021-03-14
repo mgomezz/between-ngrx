@@ -1,4 +1,7 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { User } from "src/app/shared/models/user";
+import { UsersService } from "src/app/shared/services/users.service";
 
 @Component({
   selector: "app-users-datatable",
@@ -6,16 +9,7 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./users-datatable.component.scss"],
 })
 export class UsersDatatableComponent implements OnInit {
-  rows = [
-    {
-      firstName: "Austin",
-      lastName: "Male",
-      username: "Swimlane",
-      email: "test@test.com",
-      role: "admin",
-      birthday: "05/05/97",
-    },
-  ];
+  rows: User[] = [];
 
   columns = [
     { name: "First name" },
@@ -26,9 +20,16 @@ export class UsersDatatableComponent implements OnInit {
     { name: "Birthday" },
   ];
 
-  constructor() {}
+  constructor(private usersService: UsersService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.usersService.getUsers().subscribe(
+      (users: User[]) => {
+        this.rows = users;
+      },
+      (error: HttpErrorResponse) => {}
+    );
+  }
 
   edit(value) {
     console.log(value);
