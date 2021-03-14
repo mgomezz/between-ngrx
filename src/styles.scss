@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~ngx-toastr/toastr';
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
 
 //Style to display spinner container
 .p-relative{ position: relative; }
