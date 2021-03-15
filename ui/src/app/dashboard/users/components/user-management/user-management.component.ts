@@ -48,15 +48,24 @@ export class UserManagementComponent implements OnInit {
   }
 
   initializeUserForm(): void {
-    this.userForm = this.formBuilder.group({
-      firstname: ["", [Validators.required]],
-      lastname: ["", [Validators.required]],
-      birthday: [null, [Validators.required, CustomValidators.minimumAge(18)]],
-      username: ["", [Validators.required]],
-      email: ["", [Validators.required]],
-      password: ["", [Validators.required]],
-      repeatPassword: ["", [Validators.required]],
-    });
+    this.userForm = this.formBuilder.group(
+      {
+        firstname: ["", [Validators.required]],
+        lastname: ["", [Validators.required]],
+        birthday: [
+          null,
+          [Validators.required, CustomValidators.minimumAge(18)],
+        ],
+        username: ["", [Validators.required]],
+        email: ["", [Validators.required]],
+        password: ["", [Validators.required]],
+        repeatPassword: ["", [Validators.required]],
+      },
+      {
+        validator: CustomValidators.mustMatch("password", "repeatPassword"),
+      },
+      
+    );
   }
 
   getUser(): void {

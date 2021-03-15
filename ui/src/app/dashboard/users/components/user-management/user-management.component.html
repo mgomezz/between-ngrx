@@ -22,41 +22,26 @@
         <div class="col mb-3">
           <label>Last name*</label>
           <input type="text" class="form-control" placeholder="Last name" formControlName="lastname">
-          <div class="form-text text-danger"
-            *ngIf="!userForm.controls['lastname'].valid && userForm.controls['lastname'].touched">
-            Last name is required
-          </div>
+          <app-show-errors [ctrl]="userForm.get('lastname')" [nameToShow]="'Last name'"></app-show-errors>
+
         </div>
         <div class="col mb-3">
           <label for="birthday">Birthday*</label>
           <input type="text" placeholder="Birthday" class="form-control" formControlName="birthday" bsDatepicker
             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }">
-          <div class="form-text text-danger"
-            *ngIf="!userForm.controls['birthday'].valid && userForm.controls['birthday'].touched">
-            Birthday is required
-          </div>
-          <!-- <div class="form-text text-danger"
-            *ngIf="userForm.controls['birthday'].valid && !userForm.controls['birthday'].underAge">
-            Birthday debe ser mayor de edad
-          </div> -->
+          <app-show-errors [ctrl]="userForm.get('birthday')" [nameToShow]="'Birthday'"></app-show-errors>
         </div>
       </div>
       <div class="form-row">
         <div class="col mb-3">
           <label>Username*</label>
           <input type="text" class="form-control" placeholder="Username" formControlName="username">
-          <div class="form-text text-danger"
-            *ngIf="!userForm.controls['username'].valid && userForm.controls['username'].touched">
-            Username is required
-          </div>
+          <app-show-errors [ctrl]="userForm.get('username')" [nameToShow]="'Username'"></app-show-errors>
         </div>
         <div class="col mb-3">
           <label>Email*</label>
           <input type="text" class="form-control" placeholder="Email" formControlName="email">
-          <div class="form-text text-danger"
-            *ngIf="!userForm.controls['email'].valid && userForm.controls['email'].touched">
-            Email is required
-          </div>
+          <app-show-errors [ctrl]="userForm.get('email')" [nameToShow]="'Email'"></app-show-errors>
         </div>
         <!-- <div class="col mb-3">
           <label for="yesno">Roles*</label>
@@ -67,18 +52,14 @@
         <div class="col mb-3">
           <label>Password*</label>
           <input type="password" class="form-control" placeholder="Password" formControlName="password">
-          <div class="form-text text-danger"
-            *ngIf="!userForm.controls['password'].valid && userForm.controls['password'].touched">
-            Password is required
-          </div>
+          <app-show-errors [ctrl]="userForm.get('password')" [nameToShow]="'Password'"></app-show-errors>
         </div>
         <div class="col mb-3">
           <label>Repeat password*</label>
           <input type="password" class="form-control" placeholder="Repeat password" formControlName="repeatPassword">
-          <div class="form-text text-danger"
-            *ngIf="!userForm.controls['repeatPassword'].valid && userForm.controls['repeatPassword'].touched">
-            Repeat password is required
-          </div>
+          <app-show-errors [ctrl]="userForm.get('repeatPassword')" [nameToShow]="'Repeat password'"
+            [fieldToMatch]="'Password'">
+          </app-show-errors>
         </div>
       </div>
       <!-- <div class="row align-items-center justify-content-space-between">

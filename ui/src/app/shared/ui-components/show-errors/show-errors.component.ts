@@ -9,10 +9,13 @@ import { FormControl } from "@angular/forms";
 export class ShowErrorsComponent implements OnInit {
   @Input() ctrl: FormControl;
   @Input() nameToShow: string;
+  @Input() fieldToMatch: string;
 
   ERROR_MESSAGE = {
     required: () => `${this.nameToShow} is required`,
     minlength: (par) => `Min ${par.requiredLength} chars is required`,
+    underAge: () => `Age must be 18 years old or above`,
+    mustMatch: () => `Doesn´t match with ${this.fieldToMatch} `,
   };
 
   constructor() {}
