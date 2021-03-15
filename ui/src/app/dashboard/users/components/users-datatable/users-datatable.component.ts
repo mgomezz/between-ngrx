@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import {
   Component,
   Input,
@@ -9,7 +8,6 @@ import {
 } from "@angular/core";
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
-import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/shared/models/user";
 import { UsersService } from "src/app/shared/services/users.service";
 import { ConfirmModalComponent } from "src/app/shared/ui-components/confirm-modal/confirm-modal.component";

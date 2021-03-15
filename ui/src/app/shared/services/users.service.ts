@@ -39,7 +39,7 @@ export class UsersService {
 
   update(user: User): Observable<User> {
     return this.http
-      .post<User>(`${this.apiURL}/users/update`, { user })
+      .put<User>(`${this.apiURL}/users/update`, { user })
       .pipe(
         map((user) => {
           return user;

@@ -82,6 +82,7 @@ export class UserManagementComponent implements OnInit {
   getUser(): void {
     this.usersService.getUserById(this.userId).subscribe(
       (user: User) => {
+        console.log(user);
         this.userForm.patchValue(user);
         this.setFormTitle(user);
       },
@@ -98,9 +99,9 @@ export class UserManagementComponent implements OnInit {
     this.title = "Create new user";
   }
 
-  test(): void {
+  save(): void {
     let user: User = {
-      id: Guid.newGuid(),
+      id: this.userId ? this.userId : Guid.newGuid(),
       firstname: this.userForm.get("firstname").value,
       lastname: this.userForm.get("lastname").value,
       username: this.userForm.get("username").value,
@@ -111,6 +112,21 @@ export class UserManagementComponent implements OnInit {
       skills: [],
     };
 
+    if (this.userId) {
+      this.updateUser(user);
+      return;
+    }
+
+    this.createUser(user);
+  }
+
+  updateUser(user: User): void {
+    this.usersService.update(user).subscribe((user: User) => {
+      this.router.navigate(["dashboard/users"], { replaceUrl: true });
+    });
+  }
+
+  createUser(user: User): void {
     this.usersService.create(user).subscribe((user: User) => {
       this.router.navigate(["dashboard/users"], { replaceUrl: true });
     });
