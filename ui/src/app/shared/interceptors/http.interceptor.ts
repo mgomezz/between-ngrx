@@ -13,6 +13,8 @@ import { tap, catchError } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
 @Injectable()
 export class AppHttpInterceptor implements HttpInterceptor {
+  sucessMessage: string = "All it's OK!";
+
   constructor(private toastrService: ToastrService) {}
   intercept(
     req: HttpRequest<any>,
@@ -23,9 +25,25 @@ export class AppHttpInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap((evt) => {
         if (evt instanceof HttpResponse) {
-          //TODO: handle different success scenarios
           if (evt.status === 200 && req.method != "GET") {
-            this.toastrService.success("OK");
+            if (url.endsWith("/users/create") && method === "POST") {
+              this.sucessMessage = "User created successfully!";
+            }
+
+            if (url.endsWith("/users/update") && method === "PUT") {
+              this.sucessMessage = "User updated successfully!";
+            }
+
+            if (
+              url.match(
+                /\/users\/(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}/
+              ) &&
+              method === "DELETE"
+            ) {
+              this.sucessMessage = "User deleted successfully!";
+            }
+
+            this.toastrService.success(this.sucessMessage);
           }
         }
       }),
