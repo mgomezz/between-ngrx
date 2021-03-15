@@ -5,8 +5,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { SharedModule } from "./shared/shared.module";
-import { fakeBackendProvider } from "./shared/interceptors/fakeBackend.interceptor";
 import { environment } from "src/environments/environment";
+import { UsersService } from "./shared/services/users.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AppHttpInterceptor } from "./shared/interceptors/http.interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +18,7 @@ import { environment } from "src/environments/environment";
     AppRoutingModule,
     SharedModule,
   ],
-  providers: [fakeBackendProvider],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

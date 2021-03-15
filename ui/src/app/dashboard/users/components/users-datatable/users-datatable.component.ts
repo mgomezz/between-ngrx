@@ -21,7 +21,6 @@ export class UsersDatatableComponent implements OnInit {
     { name: "Birthday" },
   ];
 
-  //TODO: implementar toastr (ver porque tira error)
   constructor(
     private usersService: UsersService,
     private toastrService: ToastrService

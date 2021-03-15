@@ -7,60 +7,83 @@
 </nav>
 <div class="card">
   <div class="card-body p-relative">
-    <div class="loading-container" *ngIf="loading">
+    <!-- <div class="loading-container">
       <div class="loader"></div>
-    </div>
+    </div> -->
     <h5 class="card-title">{{title}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">All fields with * are required</h6>
-    <form class="needs-validation">
+    <form class="needs-validation" [formGroup]="userForm" novalidate>
       <div class="form-row">
         <div class="col mb-3">
           <label>First name*</label>
-          <input type="text" class="form-control" placeholder="First name">
+          <input type="text" class="form-control" placeholder="First name" formControlName="firstname">
+          <div class="form-text text-danger"
+            *ngIf="!userForm.controls['firstname'].valid && userForm.controls['firstname'].touched">
+            First name is required
+          </div>
         </div>
         <div class="col mb-3">
           <label>Last name*</label>
-          <input type="text" class="form-control" placeholder="Last name">
+          <input type="text" class="form-control" placeholder="Last name" formControlName="lastname">
+          <div class="form-text text-danger"
+            *ngIf="!userForm.controls['lastname'].valid && userForm.controls['lastname'].touched">
+            Last name is required
+          </div>
         </div>
-        <div class="col mb-3">
+        <!-- <div class="col mb-3">
           <label for="birthday">Birthday*</label>
           <input type="text" placeholder="Datepicker" class="form-control">
-        </div>
+        </div> -->
       </div>
       <div class="form-row">
         <div class="col mb-3">
           <label>Username*</label>
-          <input type="text" class="form-control" placeholder="Username">
+          <input type="text" class="form-control" placeholder="Username" formControlName="username">
+          <div class="form-text text-danger"
+            *ngIf="!userForm.controls['username'].valid && userForm.controls['username'].touched">
+            Username is required
+          </div>
         </div>
         <div class="col mb-3">
           <label>Email*</label>
-          <input type="text" class="form-control" placeholder="Email">
+          <input type="text" class="form-control" placeholder="Email" formControlName="email">
+          <div class="form-text text-danger"
+            *ngIf="!userForm.controls['email'].valid && userForm.controls['email'].touched">
+            Email is required
+          </div>
         </div>
-        <div class="col mb-3">
+        <!-- <div class="col mb-3">
           <label for="yesno">Roles*</label>
           <p>Ng select with roles</p>
-        </div>
+        </div> -->
       </div>
       <div class="form-row" *ngIf="!editing">
         <div class="col mb-3">
           <label>Password*</label>
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" formControlName="password">
+          <div class="form-text text-danger"
+            *ngIf="!userForm.controls['password'].valid && userForm.controls['password'].touched">
+            Password is required
+          </div>
         </div>
         <div class="col mb-3">
           <label>Repeat password*</label>
-          <input type="password" class="form-control" placeholder="Repeat password">
+          <input type="password" class="form-control" placeholder="Repeat password" formControlName="repeatPassword">
+          <div class="form-text text-danger"
+            *ngIf="!userForm.controls['repeatPassword'].valid && userForm.controls['repeatPassword'].touched">
+            Repeat password is required
+          </div>
         </div>
       </div>
-      <div class="row align-items-center justify-content-space-between">
+      <!-- <div class="row align-items-center justify-content-space-between">
         <div class="col">
           <h6 class="card-subtitle mb-2 text-muted">Skills</h6>
         </div>
         <div class="col-1">
           <button type="button" class="btn btn-link">Add skill</button>
         </div>
-      </div>
-      <!--Template skills to display list-->
-      <div class="form-row">
+      </div> -->
+      <!-- <div class="form-row">
         <div class="col mb-3">
           <input type="text" class="form-control" placeholder="Name">
         </div>
@@ -75,8 +98,8 @@
             <i class="material-icons">close</i>
           </button>
         </div>
-      </div>
-      <button type="submit" class="btn btn-default">Save</button>
+      </div> -->
+      <button type="submit" class="btn btn-default" [disabled]="!userForm.valid">Save</button>
     </form>
   </div>
 </div>

@@ -2,6 +2,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
+import { CustomValidators } from "src/app/shared/helpers/CustomValidators";
 import { User } from "src/app/shared/models/user";
 import { UsersService } from "src/app/shared/services/users.service";
 
@@ -13,7 +14,6 @@ import { UsersService } from "src/app/shared/services/users.service";
 export class UserManagementComponent implements OnInit {
   userId: string = "";
   title: string = "";
-  loading: boolean = true;
   userForm: FormGroup = new FormGroup({});
 
   public roles = [
@@ -37,19 +37,25 @@ export class UserManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params["id"];
-    console.log(this.userId);
     this.initializeUserForm();
-    this.getUser();
-    this.loading = false;
+
+    if (this.userId) {
+      this.getUser();
+      return;
+    }
+
+    this.setFormTitle();
   }
 
   initializeUserForm(): void {
     this.userForm = this.formBuilder.group({
       firstname: ["", [Validators.required]],
       lastname: ["", [Validators.required]],
+      // birthday: ["", [Validators.required, CustomValidators.minimumAge(18)]],
       username: ["", [Validators.required]],
       email: ["", [Validators.required]],
       password: ["", [Validators.required]],
+      repeatPassword: ["", [Validators.required]],
     });
   }
 
@@ -57,11 +63,18 @@ export class UserManagementComponent implements OnInit {
     this.usersService.getUserById(this.userId).subscribe(
       (user: User) => {
         this.userForm.patchValue(user);
-        console.log(user);
+        this.setFormTitle(user);
       },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
+      (error: HttpErrorResponse) => {}
     );
+  }
+
+  setFormTitle(user?: User): void {
+    if (user) {
+      this.title = "Edit user: " + user.firstname + " " + user.lastname;
+      return;
+    }
+
+    this.title = "Create new user";
   }
 }

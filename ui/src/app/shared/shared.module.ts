@@ -1,12 +1,13 @@
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { BootstrapModule } from './bootstrap.module';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { BootstrapModule } from "./bootstrap.module";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { ToastrModule } from "ngx-toastr";
+import { AppHttpInterceptor } from "./interceptors/http.interceptor";
+import { UsersService } from "./services/users.service";
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     NgxDatatableModule,
     HttpClientModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+  ],
+  providers: [
+    UsersService,
+    { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
   ],
   exports: [
     FormsModule,
@@ -27,7 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     NgxDatatableModule,
     HttpClientModule,
-    ToastrModule
-  ]
+    ToastrModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}
