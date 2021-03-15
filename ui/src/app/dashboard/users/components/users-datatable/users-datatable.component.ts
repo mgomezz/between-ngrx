@@ -56,32 +56,31 @@ export class UsersDatatableComponent implements OnInit, OnChanges {
     this.usersService.getUsers().subscribe((users: User[]) => {
       this.temp = users;
       this.rows = users;
-      console.log(users);
     });
   }
 
   updateFilter(searchValue: string) {
     let val = searchValue.toLowerCase();
-    // get the amount of columns in the table
     let colsAmount = this.columns.length;
-    // get the key names of each column in the dataset
     if (this.temp.length > 0) {
-      let keys = ["firstname","lastname","username","email","role","birthday"]
-      // assign filtered matches to the active datatable
+      let keys = [
+        "firstname",
+        "lastname",
+        "username",
+        "email",
+        "role",
+        "birthday",
+      ];
       this.rows = this.temp.filter(function (item) {
-        // iterate through each row's column data
         for (let i = 0; i < colsAmount; i++) {
-          // check for a match
           if (
             item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
             !val
           ) {
-            // found match, return true to add to result set
             return true;
           }
         }
       });
-      // whenever the filter changes, always go back to the first page
       this.table.offset = 0;
     }
   }
