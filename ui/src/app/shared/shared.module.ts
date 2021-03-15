@@ -8,6 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ToastrModule } from "ngx-toastr";
 import { AppHttpInterceptor } from "./interceptors/http.interceptor";
 import { UsersService } from "./services/users.service";
+import { BsDatepickerModule } from "ngx-bootstrap";
 
 @NgModule({
   declarations: [],
@@ -18,6 +19,7 @@ import { UsersService } from "./services/users.service";
     NgSelectModule,
     ReactiveFormsModule,
     NgxDatatableModule,
+    BsDatepickerModule.forRoot(),
     HttpClientModule,
     ToastrModule.forRoot(),
   ],
@@ -31,6 +33,7 @@ import { UsersService } from "./services/users.service";
     NgSelectModule,
     ReactiveFormsModule,
     NgxDatatableModule,
+    BsDatepickerModule,
     HttpClientModule,
     ToastrModule,
   ],

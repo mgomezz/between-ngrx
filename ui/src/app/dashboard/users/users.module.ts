@@ -1,18 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { UsersRoutingModule } from './users-routing.module';
-import { UsersComponent } from './users.component';
-import { UserManagementComponent } from './components/user-management/user-management.component';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { UsersDatatableComponent } from './components/users-datatable/users-datatable.component';
+import { UsersRoutingModule } from "./users-routing.module";
+import { UsersComponent } from "./users.component";
+import { UserManagementComponent } from "./components/user-management/user-management.component";
+import { SharedModule } from "src/app/shared/shared.module";
+import { UsersDatatableComponent } from "./components/users-datatable/users-datatable.component";
+import { UiComponentsModule } from "src/app/shared/ui-components/ui-components.module";
 
 @NgModule({
-  declarations: [UsersComponent, UserManagementComponent, UsersDatatableComponent],
-  imports: [
-    CommonModule,
-    UsersRoutingModule,
-    SharedModule
-  ]
+  declarations: [
+    UsersComponent,
+    UserManagementComponent,
+    UsersDatatableComponent,
+  ],
+  imports: [CommonModule, UsersRoutingModule, SharedModule, UiComponentsModule],
 })
-export class UsersModule { }
+export class UsersModule {}

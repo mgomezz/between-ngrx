@@ -17,10 +17,7 @@
         <div class="col mb-3">
           <label>First name*</label>
           <input type="text" class="form-control" placeholder="First name" formControlName="firstname">
-          <div class="form-text text-danger"
-            *ngIf="!userForm.controls['firstname'].valid && userForm.controls['firstname'].touched">
-            First name is required
-          </div>
+          <app-show-errors [ctrl]="userForm.get('firstname')" [nameToShow]="'First name'"></app-show-errors>
         </div>
         <div class="col mb-3">
           <label>Last name*</label>
@@ -30,10 +27,19 @@
             Last name is required
           </div>
         </div>
-        <!-- <div class="col mb-3">
+        <div class="col mb-3">
           <label for="birthday">Birthday*</label>
-          <input type="text" placeholder="Datepicker" class="form-control">
-        </div> -->
+          <input type="text" placeholder="Birthday" class="form-control" formControlName="birthday" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }">
+          <div class="form-text text-danger"
+            *ngIf="!userForm.controls['birthday'].valid && userForm.controls['birthday'].touched">
+            Birthday is required
+          </div>
+          <!-- <div class="form-text text-danger"
+            *ngIf="userForm.controls['birthday'].valid && !userForm.controls['birthday'].underAge">
+            Birthday debe ser mayor de edad
+          </div> -->
+        </div>
       </div>
       <div class="form-row">
         <div class="col mb-3">
@@ -99,7 +105,7 @@
           </button>
         </div>
       </div> -->
-      <button type="submit" class="btn btn-default" [disabled]="!userForm.valid">Save</button>
+      <button type="submit" class="btn btn-default" [disabled]="!userForm.valid" (click)="test()">Save</button>
     </form>
   </div>
 </div>

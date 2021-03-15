@@ -20,7 +20,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap((evt) => {
         if (evt instanceof HttpResponse) {
-          if (evt.status === 200) this.toastrService.show("OK");
+          if (evt.status === 200) this.toastrService.success("OK");
         }
       }),
       catchError((err: any) => {

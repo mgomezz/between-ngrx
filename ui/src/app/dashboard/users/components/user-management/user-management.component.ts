@@ -51,7 +51,7 @@ export class UserManagementComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       firstname: ["", [Validators.required]],
       lastname: ["", [Validators.required]],
-      // birthday: ["", [Validators.required, CustomValidators.minimumAge(18)]],
+      birthday: [null, [Validators.required, CustomValidators.minimumAge(18)]],
       username: ["", [Validators.required]],
       email: ["", [Validators.required]],
       password: ["", [Validators.required]],
@@ -76,5 +76,9 @@ export class UserManagementComponent implements OnInit {
     }
 
     this.title = "Create new user";
+  }
+
+  test(): void {
+    let test = this.userForm.get("birthday").value;
   }
 }

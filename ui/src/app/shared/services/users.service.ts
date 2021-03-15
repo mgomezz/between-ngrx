@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { User } from "../models/user";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { ToastrService } from "ngx-toastr";
 
 @Injectable({ providedIn: "root" })
 export class UsersService {

@@ -39,7 +39,5 @@ export class UsersDatatableComponent implements OnInit {
     );
   }
 
-  deleteUser(userId: string): void {
-    console.log(userId);
-  }
+  deleteUser(userId: string): void {}
 }
