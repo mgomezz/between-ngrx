@@ -7,62 +7,48 @@ bodyParser = require("body-parser");
 port = 3080;
 
 const idlen = 10;
-var heroes = [];
+var users = [];
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../ui/build")));
 
-//GET ALL HEROES
-app.get("/api/heroes", (req, res) => {
-  console.log("api/heroes called!");
-  res.json(heroes);
+//GET ALL USERS
+app.get("/api/users", (req, res) => {
+  console.log("api/users called!");
+  res.json(users);
 });
 
-//GET HERO BY ID
-app.get("/api/hero/:id", (req, res) => {
+//GET USER BY ID
+app.get("/api/users/:id", (req, res) => {
   const id = req.params.id;
-  const hero = heroes.find((hero) => hero.id === id);
-  res.json(hero);
-});
-
-//GET HEROES BY PART OF THE NAME
-app.get("/api/heroes/:partialName", (req, res) => {
-  const partialName = req.params.partialName.toLowerCase();
-  const matchedHeroes = heroes.filter((hero) =>
-    hero.name.toLowerCase().includes(partialName)
-  );
-  res.json(matchedHeroes);
+  const user = users.find((usr) => usr.id === id);
+  res.json(user);
 });
 
 //ADD HERO
-app.post("/api/hero", (req, res) => {
-  const hero = req.body.hero;
-  const id = randomId(idlen);
-  hero.id = id;
-  heroes.push(hero);
-  res.json({ status: true, message: `Hero ${hero.name} added succesfully` });
+app.post("/api/users/create", (req, res) => {
+  const user = req.body.user;
+  users.push(user);
+  res.json(user);
 });
 
 //DELETE HERO
-app.delete("/api/hero/:id", (req, res) => {
-  console.log("deleting hero:::", req.params.id);
+app.delete("/api/users/:id", (req, res) => {
+  console.log("deleting user:::", req.params.id);
   const id = req.params.id;
-  heroes = heroes.filter((hero) => hero.id !== id);
-  res.json({
-    status: true,
-    message: `Hero ${id} deleted succesfully`,
-    data: heroes,
-  });
+  const user = users.find((usr) => usr.id === id);
+  users = users.filter((user) => user.id !== id);
+  res.json(user);
 });
 
-//UPDATE HERO
-app.put("/api/hero", (req, res) => {
-  var hero = req.body.hero;
-  heroes = heroes.map((hro) => {
-    if (hro.id === hero.id) hro = hero;
-    return hro;
+//UPDATE USER
+app.put("/api/users/update", (req, res) => {
+  var user = req.body.user;
+  users = users.map((usr) => {
+    if (usr.id === user.id) usr = user;
+    return usr;
   });
-  res.json({ status: true, message: `Hero ${hero.name} edited succesfully` });
+  res.json(user);
 });
 
 //SERVER UP NOTIFICATION
