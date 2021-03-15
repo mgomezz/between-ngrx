@@ -17,7 +17,9 @@ export class UserManagementComponent implements OnInit {
   userId: string = "";
   title: string = "";
   userForm: FormGroup = new FormGroup({});
-
+  selectedRole: string;
+  selectedCategorie: string;
+  
   public roles = [
     { label: "Admin", value: "admin" },
     { label: "Writer", value: "writer" },

@@ -43,10 +43,11 @@
           <input type="email" class="form-control" placeholder="Email" formControlName="email">
           <app-show-errors [ctrl]="userForm.get('email')" [nameToShow]="'Email'"></app-show-errors>
         </div>
-        <!-- <div class="col mb-3">
+        <div class="col mb-3">
           <label for="yesno">Roles*</label>
-          <p>Ng select with roles</p>
-        </div> -->
+          <ng-select [items]="roles" bindLabel="label" bindValue="value" [(ngModel)]="selectedRole">
+          </ng-select>
+        </div>
       </div>
       <div class="form-row" *ngIf="!editing">
         <div class="col mb-3">
