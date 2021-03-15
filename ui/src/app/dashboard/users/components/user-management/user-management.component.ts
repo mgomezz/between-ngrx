@@ -121,7 +121,7 @@ export class UserManagementComponent implements OnInit {
       this.userForm.setValue({
         firstname: user.firstname,
         lastname: user.lastname,
-        birthday: user.birthday,
+        birthday: new Date(user.birthday),
         username: user.username,
         email: user.email,
         password: user.password,

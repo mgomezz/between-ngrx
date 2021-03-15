@@ -28,7 +28,7 @@
         <div class="col mb-3">
           <label for="birthday">Birthday*</label>
           <input type="text" placeholder="Birthday" class="form-control" formControlName="birthday" bsDatepicker
-            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }">
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
           <app-show-errors [ctrl]="userForm.get('birthday')" [nameToShow]="'Birthday'"></app-show-errors>
         </div>
       </div>
