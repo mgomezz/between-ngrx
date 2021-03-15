@@ -1,0 +1,103 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Dashboard</li>
+    <li class="breadcrumb-item"><a routerLink="/dashboard/users">Users</a></li>
+    <li class="breadcrumb-item active" aria-current="page">User management</li>
+  </ol>
+</nav>
+<div class="card">
+  <div class="card-body p-relative">
+    <div class="loading-container" *ngIf="loaderService.visibility | async">
+      <div class="loader"></div>
+    </div>
+    <h5 class="card-title">{{title}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">All fields with * are required</h6>
+    <form class="needs-validation" [formGroup]="userForm" novalidate>
+      <div class="form-row">
+        <div class="col mb-3">
+          <label>First name*</label>
+          <input type="text" class="form-control" placeholder="First name" formControlName="firstname">
+          <app-show-errors [ctrl]="userForm.get('firstname')" [nameToShow]="'First name'"></app-show-errors>
+        </div>
+        <div class="col mb-3">
+          <label>Last name*</label>
+          <input type="text" class="form-control" placeholder="Last name" formControlName="lastname">
+          <app-show-errors [ctrl]="userForm.get('lastname')" [nameToShow]="'Last name'"></app-show-errors>
+
+        </div>
+        <div class="col mb-3">
+          <label for="birthday">Birthday*</label>
+          <input type="text" placeholder="Birthday" class="form-control" formControlName="birthday" bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" readonly>
+          <app-show-errors [ctrl]="userForm.get('birthday')" [nameToShow]="'Birthday'"></app-show-errors>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col mb-3">
+          <label>Username*</label>
+          <input type="text" class="form-control" placeholder="Username" formControlName="username">
+          <app-show-errors [ctrl]="userForm.get('username')" [nameToShow]="'Username'"></app-show-errors>
+        </div>
+        <div class="col mb-3">
+          <label>Email*</label>
+          <input type="email" class="form-control" placeholder="Email" formControlName="email">
+          <app-show-errors [ctrl]="userForm.get('email')" [nameToShow]="'Email'"></app-show-errors>
+        </div>
+        <div class="col mb-3">
+          <label>Role*</label>
+          <ng-select [items]="roles" bindLabel="label" bindValue="value" formControlName="role"
+            [ngClass]="{'is-invalid': userForm.get('role').invalid && userForm.get('role').touched,'is-valid':userForm.get('role').valid }">
+          </ng-select>
+          <app-show-errors [ctrl]="userForm.get('role')" [nameToShow]="'Role'"></app-show-errors>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="!editing">
+        <div class="col mb-3">
+          <label>Password*</label>
+          <input type="password" class="form-control" placeholder="Password" formControlName="password">
+          <app-show-errors [ctrl]="userForm.get('password')" [nameToShow]="'Password'"
+            [fieldToMatch]="'Repeat password'"></app-show-errors>
+        </div>
+        <div class="col mb-3">
+          <label>Repeat password*</label>
+          <input type="password" class="form-control" placeholder="Repeat password" formControlName="repeatPassword">
+          <app-show-errors [ctrl]="userForm.get('repeatPassword')" [nameToShow]="'Repeat password'"
+            [fieldToMatch]="'Password'">
+          </app-show-errors>
+        </div>
+      </div>
+      <div class="row align-items-center justify-content-space-between">
+        <div class="col">
+          <h6 class="card-subtitle mb-2 text-muted">Skills</h6>
+        </div>
+        <div class="col-1">
+          <button type="button" class="btn btn-link" (click)="addSkill()">Add skill</button>
+        </div>
+      </div>
+
+      <div formArrayName="skills" *ngFor="let skill of userForm.get('skills')['controls']; let i = index;">
+        <div class="form-row" [formGroupName]="i">
+          <div class="col mb-3">
+            <input type="text" class="form-control" placeholder="Name" formControlName="name">
+            <app-show-errors [ctrl]="skill.get('name')" [nameToShow]="'Name'">
+            </app-show-errors>
+          </div>
+          <div class="col mb-3">
+            <input type="text" class="form-control" placeholder="Description" formControlName="description">
+          </div>
+          <div class="col mb-3">
+            <ng-select [items]="categories" bindLabel="label" bindValue="value" formControlName="category"
+              [ngClass]="{'is-invalid': skill.get('category').invalid && skill.get('category').touched,'is-valid':skill.get('category').valid }">
+            </ng-select>
+          </div>
+          <div class="col-1">
+            <button type="button" class="btn btn-link btn-sm">
+              <i class="material-icons" (click)="deleteSkill(i)">close</i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-default" [disabled]="!userForm.valid" (click)="save()">Save</button>
+    </form>
+  </div>
+</div>
