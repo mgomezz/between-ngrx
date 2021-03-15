@@ -5,6 +5,7 @@ import {
   HttpEvent,
   HttpResponse,
   HttpErrorResponse,
+  HttpEventType,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
@@ -17,10 +18,15 @@ export class AppHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const { url, method, headers, body } = req;
+
     return next.handle(req).pipe(
       tap((evt) => {
         if (evt instanceof HttpResponse) {
-          if (evt.status === 200) this.toastrService.success("OK");
+          //TODO: handle different success scenarios
+          if (evt.status === 200 && req.method != "GET") {
+            this.toastrService.success("OK");
+          }
         }
       }),
       catchError((err: any) => {

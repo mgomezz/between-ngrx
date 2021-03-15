@@ -9,6 +9,8 @@ import { ToastrModule } from "ngx-toastr";
 import { AppHttpInterceptor } from "./interceptors/http.interceptor";
 import { UsersService } from "./services/users.service";
 import { BsDatepickerModule } from "ngx-bootstrap";
+import { LoaderService } from "./services/loader.service";
+import { LoaderInterceptor } from "./interceptors/loader.interceptor";
 
 @NgModule({
   declarations: [],
@@ -24,8 +26,10 @@ import { BsDatepickerModule } from "ngx-bootstrap";
     ToastrModule.forRoot(),
   ],
   providers: [
+    LoaderService,
     UsersService,
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
   ],
   exports: [
     FormsModule,

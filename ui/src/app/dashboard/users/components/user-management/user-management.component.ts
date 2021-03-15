@@ -3,7 +3,9 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { CustomValidators } from "src/app/shared/helpers/CustomValidators";
+import { Guid } from "src/app/shared/helpers/Guid";
 import { User } from "src/app/shared/models/user";
+import { LoaderService } from "src/app/shared/services/loader.service";
 import { UsersService } from "src/app/shared/services/users.service";
 
 @Component({
@@ -32,7 +34,8 @@ export class UserManagementComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private usersService: UsersService
+    private usersService: UsersService,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +99,20 @@ export class UserManagementComponent implements OnInit {
   }
 
   test(): void {
-    let test = this.userForm.get("birthday").value;
+    let user: User = {
+      id: Guid.newGuid(),
+      firstname: this.userForm.get("firstname").value,
+      lastname: this.userForm.get("lastname").value,
+      username: this.userForm.get("username").value,
+      email: this.userForm.get("email").value,
+      password: this.userForm.get("password").value,
+      birthday: this.userForm.get("birthday").value,
+      role: "admin",
+      skills: [],
+    };
+
+    this.usersService.create(user).subscribe((user: User) => {
+      this.router.navigate(["dashboard/users"], { replaceUrl: true });
+    });
   }
 }

@@ -7,9 +7,9 @@
 </nav>
 <div class="card">
   <div class="card-body p-relative">
-    <!-- <div class="loading-container">
+    <div class="loading-container" *ngIf="loaderService.visibility | async">
       <div class="loader"></div>
-    </div> -->
+    </div>
     <h5 class="card-title">{{title}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">All fields with * are required</h6>
     <form class="needs-validation" [formGroup]="userForm" novalidate>
