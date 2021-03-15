@@ -47,13 +47,26 @@ export class UsersDatatableComponent implements OnInit {
   }
 
   updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-
-    const temp = this.temp.filter((d) => {
-      return d.firstname.toLowerCase().indexOf(val) !== -1 || !val;
+    let val = event.target.value.toLowerCase();
+    // get the amount of columns in the table
+    let colsAmount = this.columns.length;
+    // get the key names of each column in the dataset
+    let keys = Object.keys(this.temp[0]);
+    // assign filtered matches to the active datatable
+    this.rows = this.temp.filter(function (item) {
+      // iterate through each row's column data
+      for (let i = 0; i < colsAmount; i++) {
+        // check for a match
+        if (
+          item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
+          !val
+        ) {
+          // found match, return true to add to result set
+          return true;
+        }
+      }
     });
-
-    this.rows = temp;
+    // whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
 
