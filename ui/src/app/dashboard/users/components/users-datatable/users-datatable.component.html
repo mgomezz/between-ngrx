@@ -20,7 +20,7 @@
                 <button type="button" class="btn btn-link" routerLink="user-management/{{value}}">
                     <i class="material-icons">edit</i>
                 </button>
-                <button type="button" class="btn btn-link" (click)="deleteUser(value)">
+                <button type="button" class="btn btn-link" (click)="openConfirmationDialog(value)">
                     <i class="material-icons">delete</i>
                 </button>
             </ng-template>

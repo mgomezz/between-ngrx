@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/shared/models/user";
 import { UsersService } from "src/app/shared/services/users.service";
+import { ConfirmModalComponent } from "src/app/shared/ui-components/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: "app-users-datatable",
@@ -11,6 +13,7 @@ import { UsersService } from "src/app/shared/services/users.service";
 })
 export class UsersDatatableComponent implements OnInit {
   rows: User[] = [];
+  modalRef: BsModalRef;
 
   columns = [
     { name: "First name" },
@@ -23,7 +26,7 @@ export class UsersDatatableComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private toastrService: ToastrService
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
@@ -39,5 +42,24 @@ export class UsersDatatableComponent implements OnInit {
     );
   }
 
-  deleteUser(userId: string): void {}
+  openConfirmationDialog(userId: string): void {
+    this.modalRef = this.modalService.show(ConfirmModalComponent, {
+      class: "modal-sm",
+      initialState: {
+        title: "Delete user",
+        message: "Are you sure to want to delete this user?",
+        callback: (result: boolean) => {
+          if (result) {
+            this.deleteUser(userId);
+          }
+        },
+      },
+    });
+  }
+
+  deleteUser(userId: string): void {
+    this.usersService.delete(userId).subscribe((user: User) => {
+      this.rows = this.rows.filter((usr) => usr.id !== user.id);
+    });
+  }
 }
