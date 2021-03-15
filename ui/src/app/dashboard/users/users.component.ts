@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: "app-users",
+  templateUrl: "./users.component.html",
+  styleUrls: ["./users.component.scss"],
 })
 export class UsersComponent implements OnInit {
+  filterValue: string = "";
 
-  keywordCtrl = new FormControl();
+  constructor() {}
 
-  constructor(
-  ) { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  updateFilter(event: any) {
+    this.filterValue = event.target.value.toLowerCase();
   }
-
 }

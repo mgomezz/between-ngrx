@@ -4,9 +4,8 @@
     <li class="breadcrumb-item active" aria-current="page">Users</li>
   </ol>
 </nav>
-<app-users-datatable class="col"></app-users-datatable>
 
-<!-- <div class="card">
+<div class="card">
   <div class="card-body">
     <div class="row justify-content-between align-items-center mb-1">
       <div class="col-4">
@@ -23,7 +22,7 @@
       </div>
     </div>
     <div class="col">
-      <app-users-datatable class="col"></app-users-datatable>
+      <app-users-datatable class="col" [searchValue]="filterValue"></app-users-datatable>
     </div>
   </div>
-</div> -->
+</div>

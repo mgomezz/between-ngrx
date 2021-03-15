@@ -1,5 +1,12 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from "@angular/core";
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import { ToastrService } from "ngx-toastr";
@@ -12,7 +19,9 @@ import { ConfirmModalComponent } from "src/app/shared/ui-components/confirm-moda
   templateUrl: "./users-datatable.component.html",
   styleUrls: ["./users-datatable.component.scss"],
 })
-export class UsersDatatableComponent implements OnInit {
+export class UsersDatatableComponent implements OnInit, OnChanges {
+  @Input() searchValue: string;
+
   rows: User[] = [];
   temp: User[] = [];
 
@@ -35,6 +44,12 @@ export class UsersDatatableComponent implements OnInit {
     private modalService: BsModalService
   ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["searchValue"].currentValue != undefined) {
+      this.updateFilter(changes["searchValue"].currentValue);
+    }
+  }
+
   ngOnInit(): void {
     this.getUsers();
   }
@@ -46,28 +61,30 @@ export class UsersDatatableComponent implements OnInit {
     });
   }
 
-  updateFilter(event) {
-    let val = event.target.value.toLowerCase();
+  updateFilter(searchValue: string) {
+    let val = searchValue.toLowerCase();
     // get the amount of columns in the table
     let colsAmount = this.columns.length;
     // get the key names of each column in the dataset
-    let keys = Object.keys(this.temp[0]);
-    // assign filtered matches to the active datatable
-    this.rows = this.temp.filter(function (item) {
-      // iterate through each row's column data
-      for (let i = 0; i < colsAmount; i++) {
-        // check for a match
-        if (
-          item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
-          !val
-        ) {
-          // found match, return true to add to result set
-          return true;
+    if (this.temp.length > 0) {
+      let keys = Object.keys(this.temp[0]);
+      // assign filtered matches to the active datatable
+      this.rows = this.temp.filter(function (item) {
+        // iterate through each row's column data
+        for (let i = 0; i < colsAmount; i++) {
+          // check for a match
+          if (
+            item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
+            !val
+          ) {
+            // found match, return true to add to result set
+            return true;
+          }
         }
-      }
-    });
-    // whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+      });
+      // whenever the filter changes, always go back to the first page
+      this.table.offset = 0;
+    }
   }
 
   openConfirmationDialog(userId: string): void {
@@ -87,7 +104,9 @@ export class UsersDatatableComponent implements OnInit {
 
   deleteUser(userId: string): void {
     this.usersService.delete(userId).subscribe((user: User) => {
-      this.rows = this.rows.filter((usr) => usr.id !== user.id);
+      let users = this.rows.filter((usr) => usr.id !== user.id);
+      this.rows = users;
+      this.temp = users;
     });
   }
 }
