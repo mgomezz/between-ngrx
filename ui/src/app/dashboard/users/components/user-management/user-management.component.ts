@@ -1,9 +1,16 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { CustomValidators } from "src/app/shared/helpers/CustomValidators";
 import { Guid } from "src/app/shared/helpers/Guid";
+import { Skill } from "src/app/shared/models/skill";
 import { User } from "src/app/shared/models/user";
 import { LoaderService } from "src/app/shared/services/loader.service";
 import { UsersService } from "src/app/shared/services/users.service";
@@ -19,9 +26,6 @@ export class UserManagementComponent implements OnInit {
   userForm: FormGroup;
   editing: boolean = false;
   skills: FormArray;
-
-  // selectedRole: string;
-  // selectedCategorie: string;
 
   public roles = [
     { label: "Admin", value: "admin" },
@@ -88,32 +92,46 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
-  createSkill(): FormGroup {
+  createSkill(skill?: Skill): FormGroup {
     return this.formBuilder.group({
-      name: ["", [Validators.required]],
-      description: [""],
-      category: [""],
+      name: [skill ? skill.name : "", [Validators.required]],
+      description: [skill ? skill.description : ""],
+      category: [skill ? skill.category : ""],
     });
   }
 
-  addSkill(): void {
+  addSkill(skill?: Skill): void {
     this.skills = this.userForm.get("skills") as FormArray;
-    this.skills.push(this.createSkill());
+    this.skills.push(this.createSkill(skill));
   }
 
   deleteSkill(index: number): void {
     this.skills.removeAt(index);
   }
 
+  mapSkills(skills: Skill[]): void {
+    this.skills = this.userForm.get("skills") as FormArray;
+    skills.forEach((skill) => {
+      this.addSkill(skill);
+    });
+  }
+
   getUser(): void {
-    this.usersService.getUserById(this.userId).subscribe(
-      (user: User) => {
-        console.log(user);
-        this.userForm.patchValue(user);
-        this.setFormTitle(user);
-      },
-      (error: HttpErrorResponse) => {}
-    );
+    this.usersService.getUserById(this.userId).subscribe((user: User) => {
+      this.userForm.setValue({
+        firstname: user.firstname,
+        lastname: user.lastname,
+        birthday: user.birthday,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        repeatPassword: user.password,
+        role: user.role,
+        skills: [],
+      });
+      this.mapSkills(user.skills);
+      this.setFormTitle(user);
+    });
   }
 
   removePasswordValidators(): void {
@@ -144,7 +162,7 @@ export class UserManagementComponent implements OnInit {
       password: this.userForm.get("password").value,
       birthday: this.userForm.get("birthday").value,
       role: this.userForm.get("role").value,
-      skills: [],
+      skills: this.userForm.get("skills").value,
     };
 
     if (this.userId) {

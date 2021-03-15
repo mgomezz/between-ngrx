@@ -56,6 +56,7 @@ export class UsersDatatableComponent implements OnInit, OnChanges {
     this.usersService.getUsers().subscribe((users: User[]) => {
       this.temp = users;
       this.rows = users;
+      console.log(users);
     });
   }
 

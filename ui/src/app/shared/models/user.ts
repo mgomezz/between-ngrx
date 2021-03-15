@@ -6,7 +6,7 @@ export class User {
   lastname: string;
   username: string;
   email: string;
-  birthday: any;
+  birthday: Date;
   password: string;
   role: string;
   skills: Array<Skill>;
