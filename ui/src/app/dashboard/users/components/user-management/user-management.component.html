@@ -44,10 +44,12 @@
           <app-show-errors [ctrl]="userForm.get('email')" [nameToShow]="'Email'"></app-show-errors>
         </div>
         <div class="col mb-3">
-          <label for="yesno">Roles*</label>
-          <ng-select [items]="roles" placeholder="Select role" bindLabel="label" bindValue="value"
-            formControlName="role">
+          <label for="yesno">Role*</label>
+          <ng-select [items]="roles" bindLabel="label" bindValue="value"
+            formControlName="role"
+            [ngClass]="{'is-invalid': userForm.get('role').invalid && userForm.get('role').touched,'is-valid':userForm.get('role').valid }">
           </ng-select>
+          <app-show-errors [ctrl]="userForm.get('role')" [nameToShow]="'Role'"></app-show-errors>
         </div>
       </div>
       <div class="form-row" *ngIf="!editing">
