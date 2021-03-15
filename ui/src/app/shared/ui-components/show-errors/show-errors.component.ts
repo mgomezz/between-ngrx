@@ -13,9 +13,10 @@ export class ShowErrorsComponent implements OnInit {
 
   ERROR_MESSAGE = {
     required: () => `${this.nameToShow} is required`,
-    minlength: (par) => `Min ${par.requiredLength} chars is required`,
+    minlength: (par) => `Minimun ${par.requiredLength} chars is required`,
     underAge: () => `Age must be 18 years old or above`,
     mustMatch: () => `Doesn´t match with ${this.fieldToMatch} `,
+    pattern: () => `Format is not valid`,
   };
 
   constructor() {}

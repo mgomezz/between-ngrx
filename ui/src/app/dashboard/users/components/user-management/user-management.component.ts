@@ -57,14 +57,22 @@ export class UserManagementComponent implements OnInit {
           [Validators.required, CustomValidators.minimumAge(18)],
         ],
         username: ["", [Validators.required]],
-        email: ["", [Validators.required]],
-        password: ["", [Validators.required]],
-        repeatPassword: ["", [Validators.required]],
+        email: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+          ],
+        ],
+        password: ["", [Validators.required, Validators.minLength(6)]],
+        repeatPassword: ["", [Validators.required, Validators.minLength(6)]],
       },
       {
-        validator: CustomValidators.mustMatch("password", "repeatPassword"),
-      },
-      
+        validators: [
+          CustomValidators.mustMatch("password", "repeatPassword"),
+          CustomValidators.mustMatch("repeatPassword", "password"),
+        ],
+      }
     );
   }
 

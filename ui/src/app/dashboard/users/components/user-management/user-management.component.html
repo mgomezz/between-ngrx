@@ -40,7 +40,7 @@
         </div>
         <div class="col mb-3">
           <label>Email*</label>
-          <input type="text" class="form-control" placeholder="Email" formControlName="email">
+          <input type="email" class="form-control" placeholder="Email" formControlName="email">
           <app-show-errors [ctrl]="userForm.get('email')" [nameToShow]="'Email'"></app-show-errors>
         </div>
         <!-- <div class="col mb-3">
@@ -52,7 +52,8 @@
         <div class="col mb-3">
           <label>Password*</label>
           <input type="password" class="form-control" placeholder="Password" formControlName="password">
-          <app-show-errors [ctrl]="userForm.get('password')" [nameToShow]="'Password'"></app-show-errors>
+          <app-show-errors [ctrl]="userForm.get('password')" [nameToShow]="'Password'"
+            [fieldToMatch]="'Repeat password'"></app-show-errors>
         </div>
         <div class="col mb-3">
           <label>Repeat password*</label>
