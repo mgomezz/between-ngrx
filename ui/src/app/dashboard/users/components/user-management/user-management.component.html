@@ -45,7 +45,8 @@
         </div>
         <div class="col mb-3">
           <label for="yesno">Roles*</label>
-          <ng-select [items]="roles" bindLabel="label" bindValue="value" [(ngModel)]="selectedRole">
+          <ng-select [items]="roles" placeholder="Select role" bindLabel="label" bindValue="value"
+            formControlName="role">
           </ng-select>
         </div>
       </div>

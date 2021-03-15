@@ -17,9 +17,10 @@ export class UserManagementComponent implements OnInit {
   userId: string = "";
   title: string = "";
   userForm: FormGroup = new FormGroup({});
-  selectedRole: string;
-  selectedCategorie: string;
-  
+  editing: boolean = false;
+  // selectedRole: string;
+  // selectedCategorie: string;
+
   public roles = [
     { label: "Admin", value: "admin" },
     { label: "Writer", value: "writer" },
@@ -45,7 +46,9 @@ export class UserManagementComponent implements OnInit {
     this.initializeUserForm();
 
     if (this.userId) {
+      this.editing = true;
       this.getUser();
+      this.removePasswordValidators();
       return;
     }
 
@@ -69,6 +72,7 @@ export class UserManagementComponent implements OnInit {
             Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
           ],
         ],
+        role: ["", [Validators.required]],
         password: ["", [Validators.required, Validators.minLength(6)]],
         repeatPassword: ["", [Validators.required, Validators.minLength(6)]],
       },
@@ -92,6 +96,15 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
+  removePasswordValidators(): void {
+    this.userForm.setValidators([]);
+    this.userForm.controls["password"].setErrors(null);
+    this.userForm.controls["password"].clearValidators();
+    this.userForm.controls["repeatPassword"].setErrors(null);
+    this.userForm.controls["repeatPassword"].clearValidators();
+    this.userForm.controls["repeatPassword"].updateValueAndValidity();
+  }
+
   setFormTitle(user?: User): void {
     if (user) {
       this.title = "Edit user: " + user.firstname + " " + user.lastname;
@@ -110,7 +123,7 @@ export class UserManagementComponent implements OnInit {
       email: this.userForm.get("email").value,
       password: this.userForm.get("password").value,
       birthday: this.userForm.get("birthday").value,
-      role: "admin",
+      role: this.userForm.get("role").value,
       skills: [],
     };
 
