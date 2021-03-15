@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/shared/models/user";
@@ -13,7 +14,10 @@ import { ConfirmModalComponent } from "src/app/shared/ui-components/confirm-moda
 })
 export class UsersDatatableComponent implements OnInit {
   rows: User[] = [];
+  temp: User[] = [];
+
   modalRef: BsModalRef;
+  ColumnMode = ColumnMode;
 
   columns = [
     { name: "First name" },
@@ -23,6 +27,8 @@ export class UsersDatatableComponent implements OnInit {
     { name: "Role" },
     { name: "Birthday" },
   ];
+
+  @ViewChild(DatatableComponent, null) table: DatatableComponent;
 
   constructor(
     private usersService: UsersService,
@@ -34,12 +40,21 @@ export class UsersDatatableComponent implements OnInit {
   }
 
   getUsers(): void {
-    this.usersService.getUsers().subscribe(
-      (users: User[]) => {
-        this.rows = users;
-      },
-      (error: HttpErrorResponse) => {}
-    );
+    this.usersService.getUsers().subscribe((users: User[]) => {
+      this.temp = users;
+      this.rows = users;
+    });
+  }
+
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+
+    const temp = this.temp.filter((d) => {
+      return d.firstname.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+
+    this.rows = temp;
+    this.table.offset = 0;
   }
 
   openConfirmationDialog(userId: string): void {
