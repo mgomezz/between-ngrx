@@ -44,9 +44,8 @@
           <app-show-errors [ctrl]="userForm.get('email')" [nameToShow]="'Email'"></app-show-errors>
         </div>
         <div class="col mb-3">
-          <label for="yesno">Role*</label>
-          <ng-select [items]="roles" bindLabel="label" bindValue="value"
-            formControlName="role"
+          <label>Role*</label>
+          <ng-select [items]="roles" bindLabel="label" bindValue="value" formControlName="role"
             [ngClass]="{'is-invalid': userForm.get('role').invalid && userForm.get('role').touched,'is-valid':userForm.get('role').valid }">
           </ng-select>
           <app-show-errors [ctrl]="userForm.get('role')" [nameToShow]="'Role'"></app-show-errors>
@@ -67,30 +66,37 @@
           </app-show-errors>
         </div>
       </div>
-      <!-- <div class="row align-items-center justify-content-space-between">
+      <div class="row align-items-center justify-content-space-between">
         <div class="col">
           <h6 class="card-subtitle mb-2 text-muted">Skills</h6>
         </div>
         <div class="col-1">
-          <button type="button" class="btn btn-link">Add skill</button>
+          <button type="button" class="btn btn-link" (click)="addSkill()">Add skill</button>
         </div>
-      </div> -->
-      <!-- <div class="form-row">
-        <div class="col mb-3">
-          <input type="text" class="form-control" placeholder="Name">
+      </div>
+
+      <div formArrayName="skills" *ngFor="let skill of userForm.get('skills')['controls']; let i = index;">
+        <div class="form-row" [formGroupName]="i">
+          <div class="col mb-3">
+            <input type="text" class="form-control" placeholder="Name" formControlName="name">
+            <app-show-errors [ctrl]="skill.get('name')" [nameToShow]="'Name'">
+            </app-show-errors>
+          </div>
+          <div class="col mb-3">
+            <input type="text" class="form-control" placeholder="Description" formControlName="description">
+          </div>
+          <div class="col mb-3">
+            <ng-select [items]="categories" bindLabel="label" bindValue="value" formControlName="category"
+              [ngClass]="{'is-invalid': skill.get('category').invalid && skill.get('category').touched,'is-valid':skill.get('category').valid }">
+            </ng-select>
+          </div>
+          <div class="col-1">
+            <button type="button" class="btn btn-link btn-sm">
+              <i class="material-icons" (click)="deleteSkill(i)">close</i>
+            </button>
+          </div>
         </div>
-        <div class="col mb-3">
-          <input type="text" class="form-control" placeholder="Description">
-        </div>
-        <div class="col mb-3">
-          <label for="categories">ng select with categories</label>
-        </div>
-        <div class="col-1">
-          <button type="button" class="btn btn-link btn-sm">
-            <i class="material-icons">close</i>
-          </button>
-        </div>
-      </div> -->
+      </div>
       <button type="submit" class="btn btn-default" [disabled]="!userForm.valid" (click)="save()">Save</button>
     </form>
   </div>

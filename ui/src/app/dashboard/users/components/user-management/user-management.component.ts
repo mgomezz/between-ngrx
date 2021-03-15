@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { CustomValidators } from "src/app/shared/helpers/CustomValidators";
 import { Guid } from "src/app/shared/helpers/Guid";
@@ -16,8 +16,10 @@ import { UsersService } from "src/app/shared/services/users.service";
 export class UserManagementComponent implements OnInit {
   userId: string = "";
   title: string = "";
-  userForm: FormGroup = new FormGroup({});
+  userForm: FormGroup;
   editing: boolean = false;
+  skills: FormArray;
+
   // selectedRole: string;
   // selectedCategorie: string;
 
@@ -75,6 +77,7 @@ export class UserManagementComponent implements OnInit {
         role: ["", [Validators.required]],
         password: ["", [Validators.required, Validators.minLength(6)]],
         repeatPassword: ["", [Validators.required, Validators.minLength(6)]],
+        skills: this.formBuilder.array([]),
       },
       {
         validators: [
@@ -83,6 +86,23 @@ export class UserManagementComponent implements OnInit {
         ],
       }
     );
+  }
+
+  createSkill(): FormGroup {
+    return this.formBuilder.group({
+      name: ["", [Validators.required]],
+      description: [""],
+      category: [""],
+    });
+  }
+
+  addSkill(): void {
+    this.skills = this.userForm.get("skills") as FormArray;
+    this.skills.push(this.createSkill());
+  }
+
+  deleteSkill(index: number): void {
+    this.skills.removeAt(index);
   }
 
   getUser(): void {
