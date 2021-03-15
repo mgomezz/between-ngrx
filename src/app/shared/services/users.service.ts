@@ -16,7 +16,7 @@ export class UsersService {
     );
   }
 
-  getUserById(id: number): Observable<User> {
+  getUserById(id: string): Observable<User> {
     return this.http.get<User>(`api/users/` + id).pipe(
       map((user) => {
         return user;

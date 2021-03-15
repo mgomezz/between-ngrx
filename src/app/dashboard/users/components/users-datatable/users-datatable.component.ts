@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 import { User } from "src/app/shared/models/user";
 import { UsersService } from "src/app/shared/services/users.service";
 
@@ -20,9 +21,17 @@ export class UsersDatatableComponent implements OnInit {
     { name: "Birthday" },
   ];
 
-  constructor(private usersService: UsersService) {}
+  //TODO: implementar toastr (ver porque tira error)
+  constructor(
+    private usersService: UsersService,
+    private toastrService: ToastrService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getUsers();
+  }
+
+  getUsers(): void {
     this.usersService.getUsers().subscribe(
       (users: User[]) => {
         this.rows = users;
@@ -31,11 +40,7 @@ export class UsersDatatableComponent implements OnInit {
     );
   }
 
-  edit(value) {
-    console.log(value);
-  }
-
-  delete(value) {
-    console.log(value);
+  deleteUser(userId: string): void {
+    console.log(userId);
   }
 }
