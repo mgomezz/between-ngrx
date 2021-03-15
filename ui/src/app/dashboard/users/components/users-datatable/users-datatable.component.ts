@@ -65,7 +65,7 @@ export class UsersDatatableComponent implements OnInit, OnChanges {
     let colsAmount = this.columns.length;
     // get the key names of each column in the dataset
     if (this.temp.length > 0) {
-      let keys = Object.keys(this.temp[0]);
+      let keys = ["firstname","lastname","username","email","role","birthday"]
       // assign filtered matches to the active datatable
       this.rows = this.temp.filter(function (item) {
         // iterate through each row's column data
